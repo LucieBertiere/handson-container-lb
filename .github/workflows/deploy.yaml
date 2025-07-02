@@ -1,9 +1,7 @@
 name: Deploy ClickCat App
 
 on:
-  push:
-    branches:
-      - 'main'
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
@@ -45,8 +43,9 @@ jobs:
       # 5. Define image URIs
       - name: Set image names
         run: |
-          echo "FRONT_IMAGE=662195598891.dkr.ecr.eu-north-1.amazonaws.com/${{ env.FRONT_IMAGE_NAME }}:latest" >> $GITHUB_ENV
-          echo "BACK_IMAGE=662195598891.dkr.ecr.eu-north-1.amazonaws.com/${{ env.BACK_IMAGE_NAME }}:latest" >> $GITHUB_ENV
+          TAG="lucie-${{ github.run_id }}"
+          echo "FRONT_IMAGE=662195598891.dkr.ecr.eu-north-1.amazonaws.com/${{ env.FRONT_IMAGE_NAME }}:$TAG" >> $GITHUB_ENV
+          echo "BACK_IMAGE=662195598891.dkr.ecr.eu-north-1.amazonaws.com/${{ env.BACK_IMAGE_NAME }}:$TAG" >> $GITHUB_ENV
 
       # 6. Build and push frontend image
       - name: Build and push frontend image
