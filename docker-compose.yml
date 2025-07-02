@@ -2,25 +2,26 @@ version: "3"
 services:
   frontend:
     build:
-      context: ???
-      dockerfile: ???
+      context: .
+      dockerfile: step3.Dockerfile
     container_name: clickcat_frontend
     ports:
-      - ???
+      - 8080:80
     depends_on:
-      - ???
+      - backend
+      - redis
 
   backend:
     build:
       context: ./backend
     container_name: clickcat_backend
     ports:
-      - ???
+      - 3000:3000
     environment:
-      - REDIS_HOST=???
+      - REDIS_HOST=redis
       - REDIS_PORT=6379
     depends_on:
-      - ???
+      - redis
 
   redis:
     image: redis:7-alpine
