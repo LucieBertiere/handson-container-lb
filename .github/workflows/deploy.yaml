@@ -40,7 +40,7 @@ jobs:
         run: |
           cd backend
           npm install
-          npm tests
+          npm test
 
       # 5. Define image URIs
       - name: Set image names
