@@ -43,7 +43,7 @@ jobs:
       # 5. Define image URIs
       - name: Set image names
         run: |
-          TAG="lucie-${{ github.run_id }}"
+          TAG="lucie-${{ github.run_number }}"
           echo "FRONT_IMAGE=662195598891.dkr.ecr.eu-north-1.amazonaws.com/${{ env.FRONT_IMAGE_NAME }}:$TAG" >> $GITHUB_ENV
           echo "BACK_IMAGE=662195598891.dkr.ecr.eu-north-1.amazonaws.com/${{ env.BACK_IMAGE_NAME }}:$TAG" >> $GITHUB_ENV
 
