@@ -54,11 +54,6 @@ jobs:
           docker build -t $REGISTRY/$REPOSITORY:$FRONT_IMAGE .
           docker push $REGISTRY/$REPOSITORY:$FRONT_IMAGE
 
-
-
-
-
-
       # 7. Build and push backend image
       - name: Build and push backend image
         run: |
