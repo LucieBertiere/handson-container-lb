@@ -3,7 +3,7 @@ name: Deploy ClickCat App
 on:
   push:
     branches:
-      - '**'
+      - 'main'
 
 jobs:
   build-and-deploy:
@@ -12,31 +12,35 @@ jobs:
       contents: read
 
     env:
-      AWS_REGION: eu-west-1
+      AWS_REGION: eu-north-1
       FRONT_IMAGE_NAME: clickcat-frontend
       BACK_IMAGE_NAME: clickcat-backend
 
     steps:
       # 1. Checkout code
-      - name: ???
-        uses: ???
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       # 2. Configure AWS credentials via secrets
-      - name: ???
-        uses: ???
+      - name: Configure AWS credentials
+        uses: actions/configure-aws-credentials@v4
         with:
-          aws-access-key-id: ???
-          aws-secret-access-key: ???
-          aws-region: ???
+          aws-access-key-id:  ${{ secrets.ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.SECRET_KEY }}
+          aws-region: ${{ env.REGION }}
+
 
       # 3. Log in to Amazon ECR
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
 
       # 4. Run tests
-      - name: ???
+      - name: Run tests
         run: |
-          ???
-          ???
-          ???
+          cd backend
+          npm install
+          npm tests
 
       # 5. Define image URIs
       - name: Set image names
@@ -45,7 +49,18 @@ jobs:
           echo "BACK_IMAGE=662195598891.dkr.ecr.eu-north-1.amazonaws.com/${{ env.BACK_IMAGE_NAME }}:latest" >> $GITHUB_ENV
 
       # 6. Build and push frontend image
-      ???
+      - name: Build and push frontend image
+        run: |
+          docker build -t $REGISTRY/$REPOSITORY:$FRONT_IMAGE .
+          docker push $REGISTRY/$REPOSITORY:$FRONT_IMAGE
+
+
+
+
+
 
       # 7. Build and push backend image
-      ???
+      - name: Build and push backend image
+        run: |
+            docker build -t $REGISTRY/$REPOSITORY:$BACK_IMAGE .
+            docker push $REGISTRY/$REPOSITORY:$BACK_IMAGE
