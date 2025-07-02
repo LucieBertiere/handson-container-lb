@@ -51,11 +51,11 @@ jobs:
       # 6. Build and push frontend image
       - name: Build and push frontend image
         run: |
-          docker build -f step3.Dockerfile -t cat:3 .
-          docker push cat:3
+          docker build -f step3.Dockerfile -t $FRONT_IMAGE .
+          docker push $FRONT_IMAGE
 
       # 7. Build and push backend image
       - name: Build and push backend image
         run: |
-          docker build -t $REGISTRY/$REPOSITORY:$BACK_IMAGE .
-          docker push $REGISTRY/$REPOSITORY:$BACK_IMAGE
+          docker build -f step3.Dockerfile -t $BACK_IMAGE .
+          docker push $BACK_IMAGE
